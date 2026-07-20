@@ -1,0 +1,15 @@
+import { PageShell } from "../components/SiteShell";
+
+const stages=[
+  ["01","Map the current operation","Identify the personas, trigger, input data, decisions, exceptions, hand-offs, integrations and final system record."],
+  ["02","Define the measurable change","State which time, error, conversion, rework or control measure the solution is expected to improve and who owns the baseline."],
+  ["03","Separate product from implementation","Keep the reusable domain model and base workflow distinct from client, country, product and integration configuration."],
+  ["04","Prototype the highest-risk assumption","Build the uncertain journey, API interaction or AI behaviour early enough to change the design before full development."],
+  ["05","Verify through delivery","Trace requirements into architecture, backlog, acceptance criteria, UAT evidence and release decisions; feed accepted changes back into the product baseline."],
+];
+export default function ApproachPage(){return <PageShell>
+  <section className="page-hero approach-hero"><span className="kicker">PRODUCT & TRANSFORMATION OPERATING MODEL</span><h1>Translate corporate strategy into architecture, governance and <em>testable software.</em></h1><p>I maintain traceability from market or client need through product roadmap, solution architecture, backlog, prototype, UAT evidence and release—while protecting the scalable base product from one-off implementation decisions.</p></section>
+  <section className="approach-principle"><div><span className="section-index">THE AERODYNAMIC PRINCIPLE</span><h2>The leading mass sets direction; drag behind it restores alignment.</h2></div><div><p>The cork provides the leading centre of mass. The wider feather skirt creates drag behind it. If the shuttlecock rotates, unequal drag across the skirt turns the cork forward again.</p><p>For software delivery, the stable centre is the agreed business outcome and domain model. Requirements, APIs, data ownership, acceptance criteria and release controls sit behind it. When a dependency or client priority changes, the team can assess the affected boundary and return to the agreed result instead of redesigning the whole product.</p></div></section>
+  <section className="approach-stages">{stages.map(([n,t,d])=><article key={n}><span>{n}</span><h2>{t}</h2><p>{d}</p></article>)}</section>
+  <section className="ai-principle"><span className="section-index">COMPOUNDING AI CONTROL MODEL</span><h2>Orchestrate specialised agents across the value chain—without surrendering governance.</h2><p>I use language models for document extraction, request classification, contextual response and content generation. The surrounding architecture supplies approved sources, vector retrieval, schemas, tools, permissions, state, security controls, validation and termination conditions. Eligibility, pricing, approval, accounting and other deterministic rules remain outside free-form model judgement.</p><div className="ai-loop"><span>Approved context</span><i>→</i><span>Specialised agent</span><i>→</i><span>Controlled tool action</span><i>→</i><span>Deterministic validation</span><i>↺</i></div></section>
+</PageShell>}

@@ -43,3 +43,5 @@ npm run build
 ## Repository notes
 
 Portfolio content and media are provided for presentation purposes. Client-confidential information, production data and commercial terms are intentionally excluded.
+
+The production video and image assets are referenced from the live portfolio URL to keep the GitHub repository lightweight and within normal source-control limits.
