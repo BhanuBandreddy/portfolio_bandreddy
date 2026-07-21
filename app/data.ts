@@ -1,4 +1,4 @@
-export type ProjectVideo = { src:string; poster:string; title:string; caption:string; steps:string[] };
+export type ProjectVideo = { src:string; poster?:string; title:string; caption:string; steps:string[] };
 export type Project = {
   slug:string; name:string; category:string; market:string; status:string;
   summary:string; challenge:string; response:string; capabilities:string[];
@@ -14,7 +14,7 @@ export const projects:Project[]=[
     capabilities:["App login and DOT entry point","App, WhatsApp and conversational lead intake","Lead-card creation and form assignment","Lead enrichment and evaluation","Form filling and quality control","Single/multiple-user registration and website automation"],
     outcome:"The demonstration documents the full hand-off sequence from lead capture to the URN response file, including the enterprise-intelligence and service-agent branches.",
     contribution:["Defined the end-to-end insurance distribution workflow","Structured the GenAI and enterprise-service responsibilities","Mapped the data, automation and human-control hand-offs"],
-    video:{src:"https://bhanu-trajectory.bhanubandreddy.chatgpt.site/media/insurance-distribution.mp4",poster:"https://bhanu-trajectory.bhanubandreddy.chatgpt.site/images/video-posters/insurance-distribution.jpg",title:"Insurance distribution — end-to-end architecture",caption:"30-second system walkthrough showing how DOT coordinates lead intake, enrichment, evaluation, forms, QC, registration and website automation.",steps:["Lead enters from the app, WhatsApp or a conversation","DOT creates the lead card and assigned form","Enrichment, evaluation, form filling and QC run in sequence","Registration and website automation return the URN response file"]}
+    video:{src:"/media/insurance-distribution.mp4",title:"Insurance distribution — end-to-end architecture",caption:"30-second system walkthrough showing how DOT coordinates lead intake, enrichment, evaluation, forms, QC, registration and website automation.",steps:["Lead enters from the app, WhatsApp or a conversation","DOT creates the lead card and assigned form","Enrichment, evaluation, form filling and QC run in sequence","Registration and website automation return the URN response file"]}
   },
   {
     slug:"claims-orchestration",name:"Claims & Member Data Orchestration",category:"Claims-service data architecture",market:"Health / Insurance",status:"Delivered solution",
@@ -24,7 +24,7 @@ export const projects:Project[]=[
     capabilities:["User identification","Query and context recognition","Fulfilment routing","Empanelled-organisation lookup","Medical-card, insurance and user data","CRM-on-demand and new-user record creation"],
     outcome:"The demonstration makes the identity and data boundaries explicit before a claims or member-service response is produced.",
     contribution:["Mapped the identity-to-data resolution sequence","Separated organisation, member, insurance and CRM sources","Defined fulfilment and new-user data paths"],
-    video:{src:"https://bhanu-trajectory.bhanubandreddy.chatgpt.site/media/claims-orchestration.mp4",poster:"https://bhanu-trajectory.bhanubandreddy.chatgpt.site/images/video-posters/claims-orchestration.jpg",title:"Claims and member-data orchestration",caption:"20-second architecture build showing the data checks required before DOT can fulfil a claim or member query.",steps:["Identify the user and recognise the query context","Resolve the empanelled organisation and entitlement records","Retrieve structured, unstructured and CRM-on-demand data","Create a new user wallet/database only when no record exists"]}
+    video:{src:"/media/claims-orchestration.mp4",title:"Claims and member-data orchestration",caption:"20-second architecture build showing the data checks required before DOT can fulfil a claim or member query.",steps:["Identify the user and recognise the query context","Resolve the empanelled organisation and entitlement records","Retrieve structured, unstructured and CRM-on-demand data","Create a new user wallet/database only when no record exists"]}
   },
   {
     slug:"multi-agent-service",name:"Multi-Agent Customer Service",category:"Agentic service orchestration",market:"Financial services",status:"Delivered solution",
@@ -34,7 +34,7 @@ export const projects:Project[]=[
     capabilities:["Inbound greeting and intent capture","Authentication and customer identification","Phone, ID and passcode collection","Basic-information API response","Specialised retrieval agents","Vector, payments, claims, finance and relationship data"],
     outcome:"The demonstration shows where the primary agent stops and when specialised agents take responsibility for each data request.",
     contribution:["Designed the primary-agent and specialist-agent boundaries","Mapped authentication before service fulfilment","Separated request interpretation from controlled data retrieval"],
-    video:{src:"https://bhanu-trajectory.bhanubandreddy.chatgpt.site/media/multi-agent-service.mp4",poster:"https://bhanu-trajectory.bhanubandreddy.chatgpt.site/images/video-posters/multi-agent-service.jpg",title:"Multi-agent customer-service architecture",caption:"30-second walkthrough of authentication, intent handling, API retrieval and specialist-agent delegation.",steps:["Agent 1 greets, authenticates and identifies the customer","The request is classified as information, update or list retrieval","Specialist agents fetch only from their assigned sources","The response is assembled from vector, claims, payments, finance or relationship data"]}
+    video:{src:"/media/multi-agent-service.mp4",title:"Multi-agent customer-service architecture",caption:"30-second walkthrough of authentication, intent handling, API retrieval and specialist-agent delegation.",steps:["Agent 1 greets, authenticates and identifies the customer","The request is classified as information, update or list retrieval","Specialist agents fetch only from their assigned sources","The response is assembled from vector, claims, payments, finance or relationship data"]}
   },
   {
     slug:"salesverse",name:"Salesverse",category:"Enterprise sales CRM and insurance distribution",market:"Africa and Asia",status:"Live across five markets",
