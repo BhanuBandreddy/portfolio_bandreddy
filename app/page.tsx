@@ -22,7 +22,7 @@ export default function Home() {
     </section>
 
     <section className="delivered-media">
-      <div className="section-heading"><div><span className="section-index">02 · DELIVERED DEMONSTRATIONS</span><h2>Three architectures shown<br/>as complete working flows.</h2></div><p>These videos are the actual animated solution walkthroughs—not representative stock footage.</p></div>
+      <div className="section-heading"><div><span className="section-index">02 · DELIVERED DEMONSTRATIONS</span><h2>Three architectures, each shown<br/>as a complete working flow.</h2></div><p>These videos are the actual animated solution walkthroughs—not representative stock footage.</p></div>
       <div className="media-grid">{projects.filter(p=>p.video).map((p,i)=><article className="media-card" key={p.slug}><div><span>0{i+1} · {p.status}</span><h3>{p.name}</h3><p>{p.video!.caption}</p></div><video controls playsInline preload="metadata" poster={p.video!.poster} aria-label={p.video!.title}><source src={p.video!.src} type="video/mp4"/></video><a href={`/work/${p.slug}`}>Read the architecture and my contribution <b>↗</b></a></article>)}</div>
     </section>
 

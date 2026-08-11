@@ -1,6 +1,5 @@
 "use client";
 import { useEffect, useState } from "react";
-import Image from "next/image";
 
 export function WindHero() {
   const [progress,setProgress] = useState(0);
@@ -10,7 +9,8 @@ export function WindHero() {
     return()=>window.removeEventListener("scroll",onScroll);
   },[]);
   return <div className="wind-visual" style={{"--progress":progress} as React.CSSProperties}>
-    <Image src="https://bhanu-trajectory.bhanubandreddy.chatgpt.site/images/shuttlecock-hero.png" alt="A shuttlecock in a wind tunnel, using air resistance to stabilise its flight" fill priority sizes="(max-width: 900px) 100vw, 50vw"/>
+    {/* eslint-disable-next-line @next/next/no-img-element */}
+    <img src="/images/shuttlecock-hero.svg" alt="A shuttlecock in a wind tunnel, using air resistance to stabilise its flight"/>
     <div className="wind-overlay" aria-hidden="true">{Array.from({length:7}).map((_,i)=><i key={i} style={{"--i":i} as React.CSSProperties}/>)}</div>
     <div className="physics-label pressure"><b>01</b><span>Airflow enters left → right</span></div>
     <div className="physics-label stability"><b>02</b><span>Feather drag stabilises</span></div>
