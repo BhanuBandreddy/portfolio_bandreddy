@@ -1,0 +1,9 @@
+node_modules
+.next
+.git
+.sites-runtime
+.wrangler
+.turbo
+examples
+tests
+*.log
