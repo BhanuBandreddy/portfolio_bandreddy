@@ -10,7 +10,7 @@ export function WindHero() {
   },[]);
   return <div className="wind-visual" style={{"--progress":progress} as React.CSSProperties}>
     {/* eslint-disable-next-line @next/next/no-img-element */}
-    <img src="/images/shuttlecock-hero.svg" alt="A shuttlecock in a wind tunnel, using air resistance to stabilise its flight"/>
+    <img src="/images/shuttlecock-hero-light.svg" alt="A shuttlecock in a wind tunnel, using air resistance to stabilise its flight"/>
     <div className="wind-overlay" aria-hidden="true">{Array.from({length:7}).map((_,i)=><i key={i} style={{"--i":i} as React.CSSProperties}/>)}</div>
     <div className="physics-label pressure"><b>01</b><span>Airflow enters left → right</span></div>
     <div className="physics-label stability"><b>02</b><span>Feather drag stabilises</span></div>

@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { Ticker } from "./Ticker";
+import { ScrollReveal } from "./ScrollReveal";
 
 export function Header() {
   return <header className="site-header">
@@ -18,6 +20,6 @@ export function Footer() {
   </footer>;
 }
 
-export function PageShell({children}:{children:React.ReactNode}) { return <><Header/><main>{children}</main><Footer/></>; }
+export function PageShell({children}:{children:React.ReactNode}) { return <><Header/><Ticker/><main>{children}</main><Footer/><ScrollReveal/></>; }
 
 export function ArrowLink({href,children}:{href:string;children:React.ReactNode}) { return <Link className="arrow-link" href={href}>{children}<span>↗</span></Link>; }

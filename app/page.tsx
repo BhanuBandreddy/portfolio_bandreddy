@@ -15,6 +15,12 @@ export default function Home() {
       <div className="hero-facts"><span><b>15+</b> years across banking, technology and entrepreneurship</span><span><b>05</b> live CRM markets across Africa and Asia</span><span><b>60%</b> improvement in user engagement through targeted AI deployment</span></div>
     </section>
 
+    <section className="giant-mark">
+      <span className="section-index">VP · PRODUCT INNOVATION &amp; AI SOLUTIONS</span>
+      <div className="giant-word">BANDR<i className="giant-bars" aria-hidden="true"><b/><b/></i>DDY</div>
+      <div className="giant-foot"><span>ENTERPRISE PRODUCT</span><span>SOLUTION ARCHITECTURE</span><span>APPLIED AI</span></div>
+    </section>
+
     <section className="metaphor-section">
       <div><span className="section-index">01 · WHY THE SHUTTLECOCK</span><h2>A stable result comes from<br/>the structure of the system.</h2></div>
       <div className="metaphor-copy"><p>The cork is the leading mass. The feather skirt sits behind it and creates greater aerodynamic drag. When the shuttlecock is disturbed, that drag rotates the cork back toward the direction of travel.</p><p>In my work, the equivalent structure is a clear case model, defined ownership, explicit integration boundaries, approved business rules and checkpoints from requirements through UAT. These controls help delivery recover when requirements, dependencies or client priorities change.</p></div>
