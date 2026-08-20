@@ -1,5 +1,6 @@
 import { ArrowLink, PageShell } from "./components/SiteShell";
 import { WindHero } from "./components/WindHero";
+import { StackFlow } from "./components/StackFlow";
 import { projects, strengths } from "./data";
 
 export default function Home() {
@@ -15,11 +16,7 @@ export default function Home() {
       <div className="hero-facts"><span><b>15+</b> years across banking, technology and entrepreneurship</span><span><b>05</b> live CRM markets across Africa and Asia</span><span><b>60%</b> improvement in user engagement through targeted AI deployment</span></div>
     </section>
 
-    <section className="giant-mark">
-      <span className="section-index">VP · PRODUCT INNOVATION &amp; AI SOLUTIONS</span>
-      <div className="giant-word">BANDR<i className="giant-bars" aria-hidden="true"><b/><b/></i>DDY</div>
-      <div className="giant-foot"><span>ENTERPRISE PRODUCT</span><span>SOLUTION ARCHITECTURE</span><span>APPLIED AI</span></div>
-    </section>
+    <StackFlow/>
 
     <section className="metaphor-section">
       <div><span className="section-index">01 · WHY THE SHUTTLECOCK</span><h2>A stable result comes from<br/>the structure of the system.</h2></div>

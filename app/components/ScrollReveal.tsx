@@ -6,12 +6,13 @@ import { useEffect } from "react";
 const SLIDE = [
   ".metaphor-section > div", ".physics-steps article",
   ".section-heading", ".strength-list article", ".role-intro",
-  ".belief > *", ".outcome-section > *", ".giant-mark > *",
+  ".belief > *", ".outcome-section > *", ".flow-head", ".flow-stage",
   ".case-hero > *", ".case-body article", ".capability-section > div",
   ".contribution-section > *", ".timeline article", ".approach-principle > div",
   ".ai-principle > *", ".about-statement > *", ".expertise > *",
   ".confidential-note > *", ".video-heading", ".video-steps article",
   ".hero-copy > *", ".hero-facts", ".career-evidence article",
+  ".fw-hero > *", ".fw-section > *", ".fw-doctrine > *", ".fw-quote > *",
 ];
 const FADE = [".media-card", ".project-card", ".work-row"];
 
