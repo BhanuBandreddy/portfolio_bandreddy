@@ -1,6 +1,6 @@
 import { ArrowLink, PageShell } from "./components/SiteShell";
 import { WindHero } from "./components/WindHero";
-import { StackFlow } from "./components/StackFlow";
+import { TransformEngine } from "./components/TransformEngine";
 import { projects, strengths } from "./data";
 
 export default function Home() {
@@ -16,7 +16,7 @@ export default function Home() {
       <div className="hero-facts"><span><b>15+</b> years across banking, technology and entrepreneurship</span><span><b>05</b> live CRM markets across Africa and Asia</span><span><b>60%</b> improvement in user engagement through targeted AI deployment</span></div>
     </section>
 
-    <StackFlow/>
+    <TransformEngine/>
 
     <section className="metaphor-section">
       <div><span className="section-index">01 · WHY THE SHUTTLECOCK</span><h2>A stable result comes from<br/>the structure of the system.</h2></div>
