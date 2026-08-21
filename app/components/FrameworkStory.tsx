@@ -158,16 +158,23 @@ function Visual({ id }: { id: string }) {
     case "constellation": {
       const scale = 62, ox = 430, oy = 420;
       const hub: Pt3 = [0, 0, 0];
-      const hubTop = cubeTopCenter(0, 0, 0, 1.6);
+      const hubS = 1.6;
+      const hubTop = cubeTopCenter(0, 0, 0, hubS);
       const sources: { p: Pt3; label: string }[] = [
         { p: [-3.4, 0, -1.2], label: "SHAREPOINT" }, { p: [-2.6, 0, 2.6], label: "TEAMS" },
         { p: [1.4, 0, -3.4], label: "CRM" }, { p: [3.2, 0, -0.6], label: "POSTGRES" },
         { p: [2.2, 0, 2.8], label: "DOCS · SOPs" },
       ];
       const dw = windows(sources.length, 0.34, 0.24, 0.2);
+      // Model sits as a genuine sixth satellite: same connector treatment as the
+      // five sources, precisely anchored so the line visibly meets its cube.
+      const modelPos: Pt3 = [4.0, 0.9, -3.4];
+      const modelS = 0.75;
+      const modelAnchor = cubeTopCenter(modelPos[0], modelPos[1], modelPos[2], modelS);
       return (
         <svg viewBox="0 0 900 640" {...box} aria-label="Enterprise sources connecting into an owned context cube, model kept swappable">
-          <Cube gx={hub[0] - 0.8} gy={0} gz={hub[2] - 0.8} s={1.6} scale={scale} ox={ox} oy={oy} base={0.04} span={0.22} dur={0.22} tone={{}} />
+          {/* connectors painted first so the hub cube's wireframe — including its
+              base diamond — reads clearly on top of the crossing lines */}
           {sources.map((s, i) => (
             <Fragment key={s.label}>
               <Dot p={s.p} scale={scale} ox={ox} oy={oy} r={4.5} w={[0.3 + i * 0.04, 0.44 + i * 0.04]} cls="nd" />
@@ -175,11 +182,13 @@ function Visual({ id }: { id: string }) {
               <Cap p={s.p} scale={scale} ox={ox} oy={oy} w={[0.5 + i * 0.05, 0.66 + i * 0.05]} text={s.label} cls="lbl" dy={-12} />
             </Fragment>
           ))}
+          <Line3 a={hubTop} b={modelAnchor} scale={scale} ox={ox} oy={oy} w={[0.66, 0.84]} cls="d amber" />
+          <Cube gx={hub[0] - hubS / 2} gy={0} gz={hub[2] - hubS / 2} s={hubS} scale={scale} ox={ox} oy={oy} base={0.04} span={0.22} dur={0.22} tone={{ bottom: "strong" }} />
           <Dot p={hubTop} scale={scale} ox={ox} oy={oy} r={5} w={[0.5, 0.62]} cls="nd amber" />
           <Cap p={hubTop} scale={scale} ox={ox} oy={oy} w={[0.54, 0.68]} text="CONTEXT" cls="lbl light" dy={-16} />
-          <Line3 a={hubTop} b={[4.6, 1.4, -3.2]} scale={scale} ox={ox} oy={oy} w={[0.7, 0.9]} cls="d amber dim" />
-          <Cube gx={4.2} gy={1} gz={-3.6} s={0.7} scale={scale} ox={ox} oy={oy} base={0.78} span={0.16} dur={0.18} tone={{ top: "amber" }} />
-          <Cap p={[4.55, 1, -3.25]} scale={scale} ox={ox} oy={oy} w={[0.9, 1]} text="MODEL — SWAPPABLE" cls="lbl amber" dy={-14} />
+          <Cube gx={modelPos[0] - modelS / 2} gy={modelPos[1]} gz={modelPos[2] - modelS / 2} s={modelS} scale={scale} ox={ox} oy={oy} base={0.82} span={0.14} dur={0.16} tone={{ top: "amber" }} />
+          <Dot p={modelAnchor} scale={scale} ox={ox} oy={oy} r={4} w={[0.92, 1]} cls="nd amber" />
+          <Cap p={modelAnchor} scale={scale} ox={ox} oy={oy} w={[0.9, 1]} text="MODEL — SWAPPABLE" cls="lbl amber" dy={-16} />
         </svg>
       );
     }
@@ -194,8 +203,19 @@ function Visual({ id }: { id: string }) {
         { p: [4.6, 2.0, 0], s: 1.2, label: "SUPERVISED", tone: { top: "green" } },
         { p: [7.2, 3.3, 0], s: 1.45, label: "CONTROLLED", tone: { top: "amber" } },
       ];
+      const sandboxAnchor = cubeTopCenter(stages[0].p[0], stages[0].p[1], stages[0].p[2], stages[0].s);
+      const candidates: Pt3[] = [[-1.7, 0, -1.15], [-1.95, 0, 0.65], [-1.05, 0, 1.75]];
+      const cdw = windows(candidates.length, 0, 0.1, 0.1);
+      const clw = windows(candidates.length, 0.02, 0.12, 0.12);
       return (
-        <svg viewBox="0 0 900 640" {...box} aria-label="Four cubes ascending from sandbox to controlled autonomy">
+        <svg viewBox="0 0 900 640" {...box} aria-label="Candidate actions converging into a staircase of cubes ascending from sandbox to controlled autonomy">
+          {candidates.map((c, i) => (
+            <Fragment key={`cand${i}`}>
+              <Line3 a={c} b={sandboxAnchor} scale={scale} ox={ox} oy={oy} w={clw[i]} cls="d dim" />
+              <Dot p={c} scale={scale} ox={ox} oy={oy} r={3.5} w={cdw[i]} cls="nd" />
+            </Fragment>
+          ))}
+          <Cap p={candidates[1]} scale={scale} ox={ox} oy={oy} w={[0.06, 0.18]} text="CANDIDATE ACTIONS" cls="lbl" dy={-14} anchor="middle" />
           {stages.slice(0, -1).map((s, i) => (
             <Line3 key={i} a={cubeTopCenter(s.p[0], s.p[1], s.p[2], s.s)} b={cubeTopCenter(stages[i + 1].p[0], stages[i + 1].p[1], stages[i + 1].p[2], stages[i + 1].s)} scale={scale} ox={ox} oy={oy} w={[0.22 + i * 0.16, 0.4 + i * 0.16]} cls="d dim" />
           ))}
@@ -222,9 +242,20 @@ function Visual({ id }: { id: string }) {
         { gx: 4.65, h: 2.3, label: "ADOPTION", tone: { top: "green" } },
       ];
       const foot = 0.82;
+      const accuracyAnchor = cubeTopCenter(bars[0].gx, 0, 0, foot, bars[0].h, foot);
+      const signals: Pt3[] = [[-1.4, 1.6, -1.0], [-1.7, 1.0, 0.6], [-0.9, 2.1, 1.3]];
+      const sdw = windows(signals.length, 0, 0.1, 0.1);
+      const slw = windows(signals.length, 0.02, 0.12, 0.12);
       return (
-        <svg viewBox="0 0 900 640" {...box} aria-label="Four measures of evaluated value at different heights, and a fulcrum where one severe failure outweighs many harmless successes">
-          <Line3 a={[-0.7, 0, 0]} b={[6.1, 0, 0]} scale={scale} ox={ox} oy={oy} w={[0.03, 0.16]} cls="d dim" />
+        <svg viewBox="0 0 900 640" {...box} aria-label="Evaluation signals converging into four measures of evaluated value, and a fulcrum where one severe failure outweighs many harmless successes">
+          {signals.map((sg, i) => (
+            <Fragment key={`sig${i}`}>
+              <Line3 a={sg} b={accuracyAnchor} scale={scale} ox={ox} oy={oy} w={slw[i]} cls="d dim" />
+              <Dot p={sg} scale={scale} ox={ox} oy={oy} r={3.5} w={sdw[i]} cls="nd" />
+            </Fragment>
+          ))}
+          <Cap p={signals[1]} scale={scale} ox={ox} oy={oy} w={[0.06, 0.18]} text="EVALUATION SIGNALS" cls="lbl" dy={-14} anchor="middle" />
+          <Line3 a={[-0.7, 0, 0]} b={[6.1, 0, 0]} scale={scale} ox={ox} oy={oy} w={[0.1, 0.2]} cls="d dim" />
           {bars.map((b, i) => (
             <Fragment key={b.label}>
               <Cube gx={b.gx} gy={0} gz={0} s={foot} sy={b.h} scale={scale} ox={ox} oy={oy} base={0.16 + i * 0.1} span={0.18} dur={0.2} tone={b.tone} />
