@@ -1,7 +1,8 @@
 "use client";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, Fragment } from "react";
 import Link from "next/link";
 import "./framework-story.css";
+import { cubeEdges, cubeTopCenter, project, windows, type Pt3 } from "./iso";
 
 type Stage = {
   id: string; n: string; kicker: string; title: string; exec: string; explain: string;
@@ -31,122 +32,252 @@ const DOCTRINE = [
   "Turn every production outcome into organisational learning.",
 ];
 
+// ---------------------------------------------------------------------------
+// Shared isometric wireframe primitives — every milestone visual is composed
+// from the same three atoms (cube / dot / line) so the page reads as one
+// coherent instrument system rather than seven unrelated diagrams.
+// ---------------------------------------------------------------------------
+type CubeTone = { top?: string; vert?: string; bottom?: string };
+
+function Cube({ gx, gy, gz, s, sy, sz, scale, ox, oy, base, span = 0.34, dur = 0.26, tone = {} }: {
+  gx: number; gy: number; gz: number; s: number; sy?: number; sz?: number; scale: number; ox: number; oy: number;
+  base: number; span?: number; dur?: number; tone?: CubeTone;
+}) {
+  const edges = cubeEdges(gx, gy, gz, s, sy, sz);
+  const ws = windows(12, base, span, dur);
+  return (
+    <>
+      {edges.map((e, i) => {
+        const [x1, y1] = project(e.a, scale, ox, oy);
+        const [x2, y2] = project(e.b, scale, ox, oy);
+        const cls = e.tier === "top" ? `d ${tone.top ?? ""}` : e.tier === "vert" ? `d ${tone.vert ?? ""}` : `d dim ${tone.bottom ?? ""}`;
+        const [w0, w1] = ws[i];
+        return <line key={i} className={cls} pathLength={1} data-w={`${w0} ${w1}`} x1={x1} y1={y1} x2={x2} y2={y2} />;
+      })}
+    </>
+  );
+}
+
+function Dot({ p, scale, ox, oy, r = 5, w, cls = "nd" }: { p: Pt3; scale: number; ox: number; oy: number; r?: number; w: [number, number]; cls?: string }) {
+  const [x, y] = project(p, scale, ox, oy);
+  return <circle className={cls} data-w={`${w[0]} ${w[1]}`} cx={x} cy={y} r={r} />;
+}
+
+function Line3({ a, b, scale, ox, oy, w, cls = "d dim" }: { a: Pt3; b: Pt3; scale: number; ox: number; oy: number; w: [number, number]; cls?: string }) {
+  const [x1, y1] = project(a, scale, ox, oy);
+  const [x2, y2] = project(b, scale, ox, oy);
+  return <line className={cls} pathLength={1} data-w={`${w[0]} ${w[1]}`} x1={x1} y1={y1} x2={x2} y2={y2} />;
+}
+
+function Cap({ p, scale, ox, oy, w, text, cls = "lbl", dy = -14, anchor = "middle" as const }: {
+  p: Pt3; scale: number; ox: number; oy: number; w: [number, number]; text: string; cls?: string; dy?: number; anchor?: "start" | "middle" | "end";
+}) {
+  const [x, y] = project(p, scale, ox, oy);
+  return <text className={cls} data-w={`${w[0]} ${w[1]}`} x={x} y={y + dy} textAnchor={anchor}>{text}</text>;
+}
+
 function Visual({ id }: { id: string }) {
   const box = { role: "img" } as const;
   switch (id) {
-    case "compass":
+
+    // 01 — scattered fragments of intent converge and resolve into one solid,
+    // measurable cube.
+    case "compass": {
+      const scale = 76, ox = 430, oy = 430;
+      const target: Pt3 = [-0.7, 0, -0.7];
+      const outcomeTop = cubeTopCenter(target[0], target[1], target[2], 1.4);
+      const frags: Pt3[] = [[-3.2, 0, -1.2], [-2.4, 0, 2.0], [-0.4, 0, -3.0], [2.6, 0, -2.0], [3.2, 0, 1.2], [0.6, 0, 3.0]];
+      const dw = windows(frags.length, 0.03, 0.22, 0.2);
+      const lw = windows(frags.length, 0.24, 0.24, 0.24);
       return (
-        <svg viewBox="0 0 900 640" {...box} aria-label="An outcome compass reorienting from model names toward business outcomes">
-          <circle className="d" data-w="0.12 0.34" pathLength={1} cx="450" cy="320" r="182" />
-          <circle className="d dim" data-w="0.2 0.42" pathLength={1} cx="450" cy="320" r="120" />
-          <path className="d dim" data-w="0.26 0.46" pathLength={1} d="M450 130V170M450 470V510M240 320H280M620 320H660" />
-          {[["REVENUE", 450, 118], ["CUSTOMER EXPERIENCE", 690, 300], ["RISK", 690, 350], ["CYCLE TIME", 210, 300], ["COST", 210, 350]].map(([t, x, y]) => (
-            <text key={t as string} className="lbl light" data-w="0.42 0.66" x={x as number} y={y as number} textAnchor="middle">{t}</text>
-          ))}
-          <line className="d amber" data-w="0.5 0.82" pathLength={1} x1="450" y1="320" x2="560" y2="222" />
-          <circle className="nd amber" data-w="0.34 0.5" cx="450" cy="320" r="6" />
-          <circle className="nd amber" data-w="0.72 0.86" cx="560" cy="222" r="7" />
-          <text className="lbl" data-w="0.16 0.32" x="450" y="560" textAnchor="middle">NOT: MODEL · CHATBOT · AGENT</text>
+        <svg viewBox="0 0 900 640" {...box} aria-label="Scattered objectives converging into one measurable outcome cube">
+          {frags.map((f, i) => <Line3 key={`l${i}`} a={f} b={outcomeTop} scale={scale} ox={ox} oy={oy} w={lw[i]} cls="d dim" />)}
+          {frags.map((f, i) => <Dot key={`d${i}`} p={f} scale={scale} ox={ox} oy={oy} r={4} w={dw[i]} cls="nd" />)}
+          <Cube gx={target[0]} gy={target[1]} gz={target[2]} s={1.4} scale={scale} ox={ox} oy={oy} base={0.5} span={0.3} dur={0.24} tone={{ top: "amber" }} />
+          <Dot p={outcomeTop} scale={scale} ox={ox} oy={oy} r={5} w={[0.82, 0.92]} cls="nd amber" />
+          <Cap p={outcomeTop} scale={scale} ox={ox} oy={oy} w={[0.86, 0.98]} text="ONE MEASURABLE OUTCOME" cls="lbl amber" dy={-24} />
+          <Cap p={[0, 0, -3.6]} scale={scale} ox={ox} oy={oy} w={[0.06, 0.2]} text="NOT: MODEL · CHATBOT · AGENT" cls="lbl" dy={40} />
         </svg>
       );
-    case "xray":
+    }
+
+    // 02 — a clean row of process-cubes on the surface; the real work
+    // (exceptions, workarounds) sits as smaller, dimmer cubes underneath.
+    case "xray": {
+      const scale = 66, ox = 210, oy = 300;
+      const steps = [0, 1.7, 3.4, 5.1];
       return (
-        <svg viewBox="0 0 900 640" {...box} aria-label="A clean official process line with hidden real-work branches revealed beneath it">
-          <path className="d green" data-w="0.12 0.32" pathLength={1} d="M110 250H790" />
-          <text className="lbl light" data-w="0.16 0.34" x="110" y="232">OFFICIAL PROCESS</text>
-          {[[230, "WORKAROUNDS"], [360, "MANUAL HANDOFF"], [490, "EXCEPTIONS"], [620, "SHADOW SHEETS"], [720, "TRIBAL RULES"]].map(([x, t], i) => (
-            <g key={t as string}>
-              <path className="d dim" data-w={`${0.34 + i * 0.06} ${0.6 + i * 0.05}`} pathLength={1} d={`M${x} 250 C${x} 320 ${(x as number) + 26} 360 ${(x as number) + 26} 420`} />
-              <circle className="nd" data-w={`${0.5 + i * 0.05} ${0.66 + i * 0.05}`} cx={(x as number) + 26} cy="428" r="5" />
-              <text className="lbl" data-w={`${0.52 + i * 0.05} ${0.74 + i * 0.04}`} x={(x as number) + 40} y="432">{t}</text>
-            </g>
+        <svg viewBox="0 0 900 640" {...box} aria-label="A clean official process with hidden real work revealed beneath it">
+          <Line3 a={[-0.6, 0, 0]} b={[6.4, 0, 0]} scale={scale} ox={ox} oy={oy} w={[0.02, 0.14]} cls="d green" />
+          <Cap p={[0, 0, 0]} scale={scale} ox={ox} oy={oy} w={[0.06, 0.18]} text="OFFICIAL PROCESS" cls="lbl light" dy={-16} anchor="start" />
+          {steps.map((gx, i) => (
+            <Cube key={i} gx={gx} gy={0} gz={0} s={0.9} scale={scale} ox={ox} oy={oy} base={0.16 + i * 0.05} span={0.16} dur={0.18} tone={{}} />
           ))}
-          <text className="lbl amber" data-w="0.62 0.82" x="110" y="470">ACTUAL WORK</text>
+          {steps.map((gx, i) => {
+            const under: Pt3 = [gx + 0.45, -1.35, 1.7 + (i % 2) * 0.4];
+            const from: Pt3 = [gx + 0.45, 0, 0.9];
+            return (
+              <Fragment key={`u${i}`}>
+                <Line3 a={from} b={under} scale={scale} ox={ox} oy={oy} w={[0.42 + i * 0.06, 0.62 + i * 0.06]} cls="d dim" />
+                <Dot p={under} scale={scale} ox={ox} oy={oy} r={4} w={[0.5 + i * 0.06, 0.68 + i * 0.06]} cls="nd" />
+              </Fragment>
+            );
+          })}
+          <Cap p={[2.6, -1.35, 2.6]} scale={scale} ox={ox} oy={oy} w={[0.66, 0.82]} text="EXCEPTIONS · WORKAROUNDS · TRIBAL RULES" cls="lbl amber" dy={22} />
         </svg>
       );
-    case "chamber":
+    }
+
+    // 03 — a single source resolving into three distinct cubes: rule,
+    // AI judgement, human accountability.
+    case "chamber": {
+      const scale = 78, ox = 200, oy = 470;
+      const source: Pt3 = [0, 0, 0];
+      const lanes: { p: Pt3; label: string; tone: CubeTone }[] = [
+        { p: [2, 0, -2.1], label: "RULE", tone: { top: "green" } },
+        { p: [3.2, 0, 0], label: "AI JUDGEMENT", tone: {} },
+        { p: [2, 0, 2.1], label: "HUMAN", tone: { top: "amber" } },
+      ];
+      const lw = windows(3, 0.32, 0.26, 0.22);
       return (
-        <svg viewBox="0 0 900 640" {...box} aria-label="Work sorted into three lanes: rules, AI judgement and human accountability">
-          {[["RULE", 150, "green"], ["AI JUDGEMENT", 300, ""], ["HUMAN", 450, "amber"]].map(([t, y], i) => (
-            <g key={t as string}>
-              <rect className={`d ${i === 0 ? "green" : ""}`} data-w={`${0.12 + i * 0.05} ${0.4 + i * 0.05}`} pathLength={1} x="330" y={(y as number) - 34} width="470" height="68" rx="10" />
-              <text className="lbl light" data-w={`${0.16 + i * 0.05} ${0.4 + i * 0.05}`} x="352" y={(y as number) + 4}>{t}</text>
-            </g>
+        <svg viewBox="0 0 900 640" {...box} aria-label="Work sorting from one source into rule, AI judgement and human lanes">
+          <Dot p={source} scale={scale} ox={ox} oy={oy} r={7} w={[0.02, 0.14]} cls="nd" />
+          {lanes.map((l, i) => (
+            <Fragment key={l.label}>
+              <Line3 a={source} b={cubeTopCenter(l.p[0], l.p[1], l.p[2], 1.1)} scale={scale} ox={ox} oy={oy} w={lw[i]} cls="d dim" />
+              <Cube gx={l.p[0]} gy={l.p[1]} gz={l.p[2]} s={1.1} scale={scale} ox={ox} oy={oy} base={0.4 + i * 0.1} span={0.2} dur={0.2} tone={l.tone} />
+              <Cap p={cubeTopCenter(l.p[0], l.p[1], l.p[2], 1.1)} scale={scale} ox={ox} oy={oy} w={[0.68 + i * 0.06, 0.84 + i * 0.06]} text={l.label} cls={`lbl ${l.tone.top === "amber" ? "amber" : l.tone.top === "green" ? "" : "light"}`} dy={-16} />
+            </Fragment>
           ))}
-          {[[150, 0], [300, 1], [450, 2], [300, 3]].map(([y, i]) => (
-            <g key={i as number}>
-              <circle className="nd" data-w={`${0.42 + (i as number) * 0.06} ${0.6 + (i as number) * 0.05}`} cx="150" cy={110 + (i as number) * 120} r="9" />
-              <path className="d dim" data-w={`${0.5 + (i as number) * 0.05} ${0.78 + (i as number) * 0.03}`} pathLength={1} d={`M162 ${110 + (i as number) * 120} C240 ${110 + (i as number) * 120} 250 ${y as number} 330 ${y as number}`} />
-            </g>
-          ))}
-          <circle className="nd amber" data-w="0.6 0.78" cx="150" cy="470" r="9" />
         </svg>
       );
-    case "constellation":
+    }
+
+    // 04 — enterprise sources wiring into one owned context cube; the model
+    // sits outside, connected only by a dashed line — swappable.
+    case "constellation": {
+      const scale = 62, ox = 430, oy = 420;
+      const hub: Pt3 = [0, 0, 0];
+      const hubTop = cubeTopCenter(0, 0, 0, 1.6);
+      const sources: { p: Pt3; label: string }[] = [
+        { p: [-3.4, 0, -1.2], label: "SHAREPOINT" }, { p: [-2.6, 0, 2.6], label: "TEAMS" },
+        { p: [1.4, 0, -3.4], label: "CRM" }, { p: [3.2, 0, -0.6], label: "POSTGRES" },
+        { p: [2.2, 0, 2.8], label: "DOCS · SOPs" },
+      ];
+      const dw = windows(sources.length, 0.34, 0.24, 0.2);
       return (
-        <svg viewBox="0 0 900 640" {...box} aria-label="Enterprise sources connecting into an owned context hub, model-neutral">
-          <ellipse className="wash" data-w="0.28 0.5" cx="430" cy="320" rx="250" ry="230" />
-          <circle className="nd" data-w="0.3 0.48" cx="430" cy="320" r="26" />
-          <circle className="nd amber" data-w="0.34 0.5" cx="430" cy="320" r="5" />
-          <text className="lbl light" data-w="0.32 0.5" x="430" y="284" textAnchor="middle">CONTEXT</text>
-          {[["SHAREPOINT", 160, 150], ["CRM", 700, 170], ["POSTGRES", 720, 470], ["TEAMS", 150, 470], ["DOCS & SOPs", 250, 300], ["POLICY", 620, 320]].map(([t, x, y], i) => (
-            <g key={t as string}>
-              <path className="d green" data-w={`${0.36 + i * 0.05} ${0.72 + i * 0.03}`} pathLength={1} d={`M${x} ${y} L430 320`} />
-              <circle className="nd" data-w={`${0.4 + i * 0.05} ${0.6 + i * 0.04}`} cx={x as number} cy={y as number} r="6" />
-              <text className="lbl" data-w={`${0.44 + i * 0.05} ${0.78 + i * 0.03}`} x={(x as number)} y={(y as number) - 14} textAnchor="middle">{t}</text>
-            </g>
+        <svg viewBox="0 0 900 640" {...box} aria-label="Enterprise sources connecting into an owned context cube, model kept swappable">
+          <Cube gx={hub[0] - 0.8} gy={0} gz={hub[2] - 0.8} s={1.6} scale={scale} ox={ox} oy={oy} base={0.04} span={0.22} dur={0.22} tone={{}} />
+          {sources.map((s, i) => (
+            <Fragment key={s.label}>
+              <Dot p={s.p} scale={scale} ox={ox} oy={oy} r={4.5} w={[0.3 + i * 0.04, 0.44 + i * 0.04]} cls="nd" />
+              <Line3 a={s.p} b={hubTop} scale={scale} ox={ox} oy={oy} w={dw[i]} cls="d green" />
+              <Cap p={s.p} scale={scale} ox={ox} oy={oy} w={[0.5 + i * 0.05, 0.66 + i * 0.05]} text={s.label} cls="lbl" dy={-12} />
+            </Fragment>
           ))}
-          <path className="d amber dim" data-w="0.6 0.86" pathLength={1} d="M456 320H820" strokeDasharray="6 6" />
-          <text className="lbl amber" data-w="0.66 0.86" x="700" y="304">MODEL — SWAPPABLE</text>
+          <Dot p={hubTop} scale={scale} ox={ox} oy={oy} r={5} w={[0.5, 0.62]} cls="nd amber" />
+          <Cap p={hubTop} scale={scale} ox={ox} oy={oy} w={[0.54, 0.68]} text="CONTEXT" cls="lbl light" dy={-16} />
+          <Line3 a={hubTop} b={[4.6, 1.4, -3.2]} scale={scale} ox={ox} oy={oy} w={[0.7, 0.9]} cls="d amber dim" />
+          <Cube gx={4.2} gy={1} gz={-3.6} s={0.7} scale={scale} ox={ox} oy={oy} base={0.78} span={0.16} dur={0.18} tone={{ top: "amber" }} />
+          <Cap p={[4.55, 1, -3.25]} scale={scale} ox={ox} oy={oy} w={[0.9, 1]} text="MODEL — SWAPPABLE" cls="lbl amber" dy={-14} />
         </svg>
       );
-    case "dial":
+    }
+
+    // 05 — four cubes ascending like a staircase; each stage larger and
+    // brighter than the last, ending in a solid, amber-lit "controlled" cube.
+    case "dial": {
+      const scale = 62, ox = 170, oy = 490;
+      const stages: { p: Pt3; s: number; label: string; tone: CubeTone }[] = [
+        { p: [0, 0, 0], s: 0.85, label: "SANDBOX", tone: {} },
+        { p: [2.2, 0.9, 0], s: 1.0, label: "SHADOW", tone: {} },
+        { p: [4.6, 2.0, 0], s: 1.2, label: "SUPERVISED", tone: { top: "green" } },
+        { p: [7.2, 3.3, 0], s: 1.45, label: "CONTROLLED", tone: { top: "amber" } },
+      ];
       return (
-        <svg viewBox="0 0 900 640" {...box} aria-label="An autonomy dial filling stage by stage from sandbox to controlled autonomy">
-          <path className="d dim" data-w="0.12 0.4" pathLength={1} d="M250 470 A200 200 0 1 1 650 470" />
-          <path className="d amber" data-w="0.44 0.86" pathLength={1} d="M250 470 A200 200 0 0 1 450 172" />
-          {[["SANDBOX", 250, 470], ["SHADOW", 300, 250], ["SUPERVISED", 600, 250], ["CONTROLLED", 650, 470]].map(([t, x, y], i) => (
-            <g key={t as string}>
-              <circle className={`nd ${i === 3 ? "amber" : ""}`} data-w={`${0.3 + i * 0.08} ${0.5 + i * 0.08}`} cx={x as number} cy={y as number} r="7" />
-              <text className="lbl light" data-w={`${0.34 + i * 0.08} ${0.6 + i * 0.06}`} x={x as number} y={(y as number) + (i < 2 ? -18 : 34)} textAnchor="middle">{t}</text>
-            </g>
+        <svg viewBox="0 0 900 640" {...box} aria-label="Four cubes ascending from sandbox to controlled autonomy">
+          {stages.slice(0, -1).map((s, i) => (
+            <Line3 key={i} a={cubeTopCenter(s.p[0], s.p[1], s.p[2], s.s)} b={cubeTopCenter(stages[i + 1].p[0], stages[i + 1].p[1], stages[i + 1].p[2], stages[i + 1].s)} scale={scale} ox={ox} oy={oy} w={[0.22 + i * 0.16, 0.4 + i * 0.16]} cls="d dim" />
           ))}
-          <circle className="nd" data-w="0.34 0.5" cx="450" cy="380" r="20" />
-          <path className="d amber" data-w="0.78 0.92" pathLength={1} d="M438 380 l9 10 l16 -20" />
+          {stages.map((s, i) => (
+            <Fragment key={s.label}>
+              <Cube gx={s.p[0]} gy={s.p[1]} gz={s.p[2]} s={s.s} scale={scale} ox={ox} oy={oy} base={0.03 + i * 0.19} span={0.16} dur={0.18} tone={s.tone} />
+              <Cap p={s.p} scale={scale} ox={ox} oy={oy} w={[0.16 + i * 0.19, 0.3 + i * 0.19]} text={s.label} cls={`lbl ${s.tone.top === "amber" ? "amber" : "light"}`} dy={26} />
+            </Fragment>
+          ))}
+          <Dot p={cubeTopCenter(5.3, 2.1, 0, 1.3)} scale={scale} ox={ox} oy={oy} r={5} w={[0.86, 0.96]} cls="nd amber" />
         </svg>
       );
-    case "balance":
+    }
+
+    // 06 — four bar-cubes of rising height (accuracy · value · risk ·
+    // adoption); a tilted beam shows one severe failure outweighing many
+    // harmless successes.
+    case "balance": {
+      const scale = 68, ox = 220, oy = 460;
+      const bars: { gx: number; h: number; label: string; tone: CubeTone }[] = [
+        { gx: 0, h: 0.9, label: "ACCURACY", tone: {} },
+        { gx: 1.55, h: 1.6, label: "VALUE", tone: {} },
+        { gx: 3.1, h: 0.6, label: "RISK", tone: {} },
+        { gx: 4.65, h: 2.3, label: "ADOPTION", tone: { top: "green" } },
+      ];
+      const foot = 0.82;
       return (
-        <svg viewBox="0 0 900 640" {...box} aria-label="Four evaluation gauges and a severity balance that outweighs harmless successes">
-          <path className="d dim" data-w="0.14 0.34" pathLength={1} d="M150 470H760" />
-          {[["ACCURACY", 220, 150], ["VALUE", 350, 110], ["RISK", 480, 220], ["ADOPTION", 610, 140]].map(([t, x, h], i) => (
-            <g key={t as string}>
-              <line className="d dim" data-w={`${0.2 + i * 0.05} ${0.4 + i * 0.05}`} pathLength={1} x1={x as number} y1="470" x2={x as number} y2="230" />
-              <line className="d green" data-w={`${0.4 + i * 0.06} ${0.66 + i * 0.05}`} pathLength={1} x1={(x as number) - 16} y1={470 - (h as number)} x2={(x as number) + 16} y2={470 - (h as number)} />
-              <text className="lbl" data-w={`${0.44 + i * 0.05} ${0.72 + i * 0.04}`} x={x as number} y="494" textAnchor="middle">{t}</text>
-            </g>
+        <svg viewBox="0 0 900 640" {...box} aria-label="Four measures of evaluated value at different heights, and a fulcrum where one severe failure outweighs many harmless successes">
+          <Line3 a={[-0.7, 0, 0]} b={[6.1, 0, 0]} scale={scale} ox={ox} oy={oy} w={[0.03, 0.16]} cls="d dim" />
+          {bars.map((b, i) => (
+            <Fragment key={b.label}>
+              <Cube gx={b.gx} gy={0} gz={0} s={foot} sy={b.h} scale={scale} ox={ox} oy={oy} base={0.16 + i * 0.1} span={0.18} dur={0.2} tone={b.tone} />
+              <Cap p={[b.gx + foot / 2, 0, 0]} scale={scale} ox={ox} oy={oy} w={[0.32 + i * 0.1, 0.46 + i * 0.1]} text={b.label} cls="lbl" dy={30} anchor="middle" />
+            </Fragment>
           ))}
-          <path className="d amber" data-w="0.6 0.8" pathLength={1} d="M690 200 L760 236 L620 236 Z" />
-          <path className="d" data-w="0.66 0.86" pathLength={1} d="M560 150 H820" />
-          <circle className="nd amber" data-w="0.74 0.9" cx="800" cy="150" r="10" />
-          <text className="lbl amber" data-w="0.76 0.92" x="800" y="128" textAnchor="middle">ONE SEVERE FAILURE</text>
+          {/* fulcrum: a tilted beam — one heavy amber weight outweighs three light ones */}
+          <Line3 a={[7.0, 3.55, 0]} b={[7.9, 3.9, 0]} scale={scale} ox={ox} oy={oy} w={[0.58, 0.7]} cls="d" />
+          <Line3 a={[7.9, 3.9, 0]} b={[9.2, 2.55, 0]} scale={scale} ox={ox} oy={oy} w={[0.62, 0.76]} cls="d amber" />
+          <Line3 a={[7.9, 3.9, 0]} b={[7.9, 2.9, 0]} scale={scale} ox={ox} oy={oy} w={[0.66, 0.78]} cls="d dim" />
+          <Dot p={[7.9, 3.9, 0]} scale={scale} ox={ox} oy={oy} r={4} w={[0.6, 0.72]} cls="nd" />
+          <Dot p={[9.2, 2.55, 0]} scale={scale} ox={ox} oy={oy} r={8} w={[0.78, 0.9]} cls="nd amber" />
+          <Dot p={[6.85, 3.62, 0]} scale={scale} ox={ox} oy={oy} r={3} w={[0.6, 0.7]} cls="nd" />
+          <Dot p={[6.65, 3.72, 0]} scale={scale} ox={ox} oy={oy} r={3} w={[0.62, 0.72]} cls="nd" />
+          <Dot p={[6.45, 3.82, 0]} scale={scale} ox={ox} oy={oy} r={3} w={[0.64, 0.74]} cls="nd" />
+          <Cap p={[9.2, 2.55, 0]} scale={scale} ox={ox} oy={oy} w={[0.84, 0.98]} text="ONE SEVERE FAILURE" cls="lbl amber" dy={-16} anchor="middle" />
+          <Cap p={[6.65, 3.72, 0]} scale={scale} ox={ox} oy={oy} w={[0.6, 0.72]} text="MANY HARMLESS SUCCESSES" cls="lbl" dy={-14} anchor="middle" />
         </svg>
       );
-    case "loop":
+    }
+
+    // 07 — a closed ring of cubes and nodes: production feeds outcomes,
+    // feedback, evaluation and updates — which return to production.
+    case "loop": {
+      const scale = 60, ox = 430, oy = 380;
+      const n = 6, R = 3.1;
+      const names = ["PRODUCTION", "OUTCOMES", "FEEDBACK", "EVALUATIONS", "UPDATES", "CONTEXT"];
+      const nodes: Pt3[] = Array.from({ length: n }, (_, i) => {
+        const a = -Math.PI / 2 + (i / n) * Math.PI * 2;
+        return [Math.cos(a) * R, 0, Math.sin(a) * R];
+      });
+      const lw = windows(n, 0.06, 0.5, 0.14);
       return (
-        <svg viewBox="0 0 900 640" {...box} aria-label="A closed learning loop of production, outcomes, feedback, evaluation and updates">
-          <circle className="d green" data-w="0.12 0.5" pathLength={1} cx="450" cy="320" r="180" />
-          {[["PRODUCTION", 450, 140], ["OUTCOMES", 630, 320], ["FEEDBACK", 450, 500], ["EVALUATIONS", 270, 320], ["UPDATES", 320, 190]].map(([t, x, y], i) => (
-            <g key={t as string}>
-              <circle className="nd" data-w={`${0.3 + i * 0.06} ${0.5 + i * 0.05}`} cx={x as number} cy={y as number} r="7" />
-              <text className="lbl light" data-w={`${0.34 + i * 0.06} ${0.64 + i * 0.05}`} x={x as number} y={(y as number) - 16} textAnchor="middle">{t}</text>
-            </g>
+        <svg viewBox="0 0 900 640" {...box} aria-label="A closed loop of production, outcomes, feedback, evaluation and updates">
+          {nodes.map((p, i) => {
+            const q = nodes[(i + 1) % n];
+            return <Line3 key={i} a={p} b={q} scale={scale} ox={ox} oy={oy} w={lw[i]} cls="d green" />;
+          })}
+          {nodes.map((p, i) => (
+            i % 2 === 0 ? (
+              <Cube key={i} gx={p[0] - 0.5} gy={p[1]} gz={p[2] - 0.5} s={1} scale={scale} ox={ox} oy={oy} base={0.5 + i * 0.06} span={0.16} dur={0.18} tone={i === 0 ? { top: "amber" } : {}} />
+            ) : (
+              <Dot key={i} p={p} scale={scale} ox={ox} oy={oy} r={7} w={[0.5 + i * 0.06, 0.66 + i * 0.06]} cls="nd" />
+            )
           ))}
-          <path className="d amber" data-w="0.6 0.86" pathLength={1} d="M410 360 L450 320 L410 300" />
-          <path className="d amber" data-w="0.62 0.9" pathLength={1} d="M470 360 v-70 M450 300 v-40" />
-          <text className="lbl amber" data-w="0.7 0.9" x="450" y="336" textAnchor="middle">COMPOUNDING</text>
+          {nodes.map((p, i) => (
+            <Cap key={`c${i}`} p={p} scale={scale} ox={ox} oy={oy} w={[0.62 + i * 0.05, 0.78 + i * 0.05]} text={names[i]} cls={i === 0 ? "lbl amber" : "lbl light"} dy={i === 0 ? -30 : 22} />
+          ))}
+          <Cap p={[0, 0, 0]} scale={scale} ox={ox} oy={oy} w={[0.86, 1]} text="COMPOUNDING" cls="lbl amber" dy={4} />
         </svg>
       );
+    }
+
     default:
       return null;
   }
