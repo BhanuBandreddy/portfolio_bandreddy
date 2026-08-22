@@ -23,6 +23,10 @@
 .sfw-mono{font-family:var(--font-geist-mono),monospace}
 
 /* fixed right-side dot nav */
+/* fixed back button — always reachable on this long scroll page */
+.sfw-back{position:fixed;z-index:30;left:clamp(18px,3vw,40px);top:24px;display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border:1px solid rgba(10,22,40,.16);border-radius:999px;background:rgba(255,255,255,.86);backdrop-filter:blur(8px);color:var(--white-dim);text-decoration:none;font:600 .62rem var(--font-geist-mono),monospace;letter-spacing:.1em;text-transform:uppercase;box-shadow:0 6px 20px -10px rgba(10,22,40,.25);transition:.2s}
+.sfw-back:hover{color:var(--blue-bright);border-color:var(--blue-bright)}
+
 .sfw-nav{position:fixed;z-index:30;right:clamp(18px,3vw,40px);top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:16px;align-items:flex-end}
 .sfw-nav button{all:unset;cursor:pointer;display:flex;align-items:center;gap:10px;color:var(--white-dim);font:600 .58rem var(--font-geist-mono),monospace;letter-spacing:.12em;text-transform:uppercase}
 .sfw-nav .dot{width:7px;height:7px;border-radius:50%;border:1px solid rgba(10,22,40,.28);background:transparent;transition:.25s}

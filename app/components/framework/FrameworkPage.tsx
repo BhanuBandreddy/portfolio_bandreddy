@@ -1,5 +1,6 @@
 "use client";
 import { useCallback, useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import "./framework.css";
 import { STAGES } from "./stages";
 import { FrameworkHero } from "./FrameworkHero";
@@ -39,6 +40,7 @@ export function FrameworkPage() {
 
   return (
     <div className="sfw" ref={rootRef}>
+      <Link className="sfw-back" href="/approach">← Back to approach</Link>
       <FrameworkNav active={active} />
       <FrameworkHero assembled={assembled} />
       {STAGES.map((stage, i) => (
