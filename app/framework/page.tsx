@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { FrameworkPage } from "../../components/framework/FrameworkPage";
+import { FrameworkPage } from "../components/framework/FrameworkPage";
 
 export const metadata: Metadata = {
   title: "Enterprise AI Transformation Framework — Bhanu Harish Bandreddy",
