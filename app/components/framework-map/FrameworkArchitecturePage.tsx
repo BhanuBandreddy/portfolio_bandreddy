@@ -38,15 +38,15 @@ export function FrameworkArchitecturePage() {
       <Link
         href="/approach"
         style={{
-          position: "fixed", zIndex: 40, left: "clamp(18px, 3vw, 40px)", top: 16,
-          display: "inline-flex", alignItems: "center", gap: 8, padding: "8px 14px",
-          border: "1px solid var(--line)", borderRadius: 999, background: "rgba(255,255,255,.9)",
+          position: "fixed", zIndex: 40, left: 12, top: 66,
+          display: "inline-flex", alignItems: "center", gap: 6, padding: "5px 10px",
+          border: "1px solid var(--line)", borderRadius: 999, background: "rgba(255,255,255,.92)",
           backdropFilter: "blur(8px)", color: "var(--muted)", textDecoration: "none",
-          fontFamily: "var(--font-geist-mono), monospace", fontSize: 11, letterSpacing: "0.1em",
-          textTransform: "uppercase", boxShadow: "0 6px 20px -10px rgba(31,35,40,.25)",
+          fontFamily: "var(--font-geist-mono), monospace", fontSize: 10, letterSpacing: "0.08em",
+          textTransform: "uppercase", boxShadow: "0 6px 16px -10px rgba(31,35,40,.25)",
         }}
       >
-        ← Back to approach
+        ← Approach
       </Link>
       <ArchitectureMap data={DATA} />
       <DrillDownLink />
