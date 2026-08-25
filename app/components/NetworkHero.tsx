@@ -173,13 +173,13 @@ export function NetworkHero() {
     stageNodesRef.current = stageNodes;
 
     const scene = new THREE.Scene();
-    scene.fog = new THREE.FogExp2(0x030a06, 0.012);
+    scene.fog = new THREE.FogExp2(0x070c1e, 0.012);
 
     const camera = new THREE.PerspectiveCamera(52, 1, 0.1, 200);
     camera.position.set(0, 3, 32);
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false, powerPreference: "high-performance" });
-    renderer.setClearColor(0x040b06);
+    renderer.setClearColor(0x070c1e);
     wrap.appendChild(renderer.domElement);
 
     const controls = new OrbitControls(camera, renderer.domElement);
@@ -194,14 +194,21 @@ export function NetworkHero() {
     // starfield
     const starN = 600;
     const starPos = new Float32Array(starN * 3);
+    const starColor = new Float32Array(starN * 3);
     for (let i = 0; i < starN; i++) {
       const r = 40 + Math.random() * 60;
       const v = new THREE.Vector3(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5).normalize().multiplyScalar(r);
       starPos[i * 3] = v.x; starPos[i * 3 + 1] = v.y; starPos[i * 3 + 2] = v.z;
+      const brightness = 0.55 + Math.random() * 0.45;
+      starColor[i * 3] = brightness; starColor[i * 3 + 1] = brightness; starColor[i * 3 + 2] = brightness;
     }
     const starGeo = new THREE.BufferGeometry();
     starGeo.setAttribute("position", new THREE.BufferAttribute(starPos, 3));
-    const stars = new THREE.Points(starGeo, new THREE.PointsMaterial({ color: 0xbfe8cc, size: 0.35, transparent: true, opacity: 0.5, depthWrite: false }));
+    starGeo.setAttribute("color", new THREE.BufferAttribute(starColor, 3));
+    const stars = new THREE.Points(starGeo, new THREE.PointsMaterial({
+      color: 0xffffff, vertexColors: true, size: 0.4, sizeAttenuation: true,
+      transparent: true, opacity: 0.85, depthWrite: false,
+    }));
     scene.add(stars);
 
     // pulse uniforms shared by nodes + lines

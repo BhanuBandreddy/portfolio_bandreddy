@@ -11,7 +11,7 @@
 .nh-copy h2 em{font-style:italic;color:var(--acid)}
 .nh-copy p{color:#3d444d;line-height:1.7;max-width:680px;font-size:16px}
 
-.nh-viz{position:relative;height:min(78vh,720px);min-height:480px;background:#040b06;border-radius:16px;overflow:hidden;touch-action:pan-y;cursor:grab}
+.nh-viz{position:relative;height:min(78vh,720px);min-height:480px;background:#070c1e;border-radius:16px;overflow:hidden;touch-action:pan-y;cursor:grab}
 .nh-viz:active{cursor:grabbing}
 .nh-viz canvas{position:absolute;inset:0;display:block;width:100%!important;height:100%!important;touch-action:none}
 
