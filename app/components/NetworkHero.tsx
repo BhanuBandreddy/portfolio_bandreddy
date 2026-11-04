@@ -186,6 +186,12 @@ export function NetworkHero() {
     controls.enableDamping = true;
     controls.dampingFactor = 0.06;
     controls.enablePan = false;
+    // Wheel and vertical touch drags belong to the page: a visitor scrolling
+    // past this panel must never get stuck zooming it.
+    controls.enableZoom = false;
+    // OrbitControls writes touch-action:none inline; hand vertical swipes back
+    // to the page so a phone user can scroll past the canvas.
+    renderer.domElement.style.touchAction = "pan-y";
     controls.minDistance = 14;
     controls.maxDistance = 60;
     controls.autoRotate = !reduce;
@@ -387,7 +393,7 @@ export function NetworkHero() {
 
         <div className="nh-controls">
           <button type="button" onClick={() => setPaused((p) => !p)}>{paused ? "▶ Resume" : "⏸ Pause"}</button>
-          <span className="nh-hint">Drag to orbit · Click to pulse a stage</span>
+          <span className="nh-hint">Drag sideways to orbit · Tap a stage to pulse it</span>
         </div>
       </div>
 

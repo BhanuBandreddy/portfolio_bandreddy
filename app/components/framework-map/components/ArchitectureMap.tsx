@@ -7,6 +7,7 @@ import { clearView, setActiveFlow, useMapView } from '../stores/useMapView'
 import IsoCanvas from './IsoCanvas'
 import { ExplainerPanel, LegendRail } from './SidePanels'
 import { motion, paint, type as typeface } from './theme'
+import './map-responsive.css'
 
 /**
  * The page: index, stage, reading pane — full height, no page scroll, each
@@ -29,6 +30,8 @@ export type ArchitectureData = {
   /** Files no module claims. Above zero means the map is behind the code. */
   unmapped: readonly string[]
   repo: string
+  /** What a node is called on this page: Stages on the overview, Steps inside a stage. */
+  nodeNoun?: string
 }
 
 const LABEL: React.CSSProperties = {
@@ -86,13 +89,13 @@ export default function ArchitectureMap({ data }: { data: ArchitectureData }) {
       : (activeFlow?.name ?? 'system')
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100vh', background: paint.surface }}>
-      <header style={{
+    <div className="am-root" style={{ display: 'flex', flexDirection: 'column', background: paint.surface }}>
+      <header className="am-head" style={{
         display: 'flex', alignItems: 'stretch', height: 56, flexShrink: 0,
         borderBottom: `1px solid ${paint.border}`, paddingLeft: 20, paddingRight: 12,
       }}>
-        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', paddingRight: 12, minWidth: 0 }}>
-          <span style={LABEL}>Repository</span>
+        <div className="am-title" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', paddingRight: 12, minWidth: 0 }}>
+          <span style={LABEL}>Framework</span>
           <span style={{
             fontFamily: typeface.mono, fontSize: 12, fontWeight: 600, color: paint.inkPrimary,
             whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
@@ -101,17 +104,13 @@ export default function ArchitectureMap({ data }: { data: ArchitectureData }) {
           </span>
         </div>
 
+        <Cell label={data.nodeNoun ?? 'Stages'} value={String(data.nodes.length)} />
         <Cell label="Flows" value={String(data.flows.length)} />
-        <Cell label="Modules" value={String(data.nodes.length)} />
-        <Cell label="Paths" value={String(data.edges.length)} />
-        <Cell
-          label="Unmapped"
-          value={data.unmapped.length === 0 ? 'none' : String(data.unmapped.length)}
-          accent={data.unmapped.length > 0}
-        />
+        <Cell label="Links" value={String(data.edges.length)} />
+        {data.unmapped.length > 0 && <Cell label="Unmapped" value={String(data.unmapped.length)} accent />}
         <Cell label="Selected" value={selectedName} />
 
-        <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 8, paddingLeft: 16 }}>
+        <div className="am-controls" style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 8, paddingLeft: 16 }}>
           <button
             type="button"
             disabled={!activeFlow}
@@ -154,16 +153,16 @@ export default function ArchitectureMap({ data }: { data: ArchitectureData }) {
         </div>
       </header>
 
-      <div style={{ display: 'flex', flex: 1, minHeight: 0 }}>
+      <div className="am-body" style={{ display: 'flex', flex: 1, minHeight: 0 }}>
         <LegendRail groups={data.groups} nodes={data.nodes} flows={data.flows} />
-        <div style={{ display: 'flex', flex: 1, minWidth: 0, flexDirection: 'column' }}>
+        <div className="am-stage" style={{ display: 'flex', flex: 1, minWidth: 0, flexDirection: 'column' }}>
           <IsoCanvas groups={data.groups} nodes={data.nodes} edges={data.edges} flows={data.flows} />
-          <footer style={{
+          <footer className="am-foot" style={{
             display: 'flex', alignItems: 'center', height: 32, flexShrink: 0,
             borderTop: `1px solid ${paint.border}`, padding: '0 20px',
           }}>
             <span style={LABEL}>
-              choose a flow · space plays · drag to pan · scroll to zoom · − + 0 · esc clears
+              pick a stage or a flow · drag to pan · scroll to zoom · space plays · esc clears
             </span>
           </footer>
         </div>

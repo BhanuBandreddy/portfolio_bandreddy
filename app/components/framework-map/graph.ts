@@ -217,8 +217,8 @@ export const INTRO = {
   whatItDoes:
     'AI transformation is not seven separate steps. It is one system: a workflow that starts at a business outcome, gets redesigned around deterministic rules, AI judgement and human accountability, and only then meets governed intelligence — released gradually, evaluated honestly, and improved by its own production history.',
   howItsBuilt:
-    'This map uses the architecture-map skill’s own isometric rendering engine, repurposed: buildings sized by the framework document’s real, measured specification depth rather than lines of code, edges limited to the two the source document itself draws, and prose written from the document, not generated.',
+    'Each building is sized by how much the framework specifies for that stage, so the heavier the building, the more detail sits behind it. Two paths connect them: the forward route from outcome to release, and the return edge that feeds production learning back into the workflow.',
 }
 
 export const UNMAPPED: readonly string[] = []
-export const REPO = 'Enterprise_AI_Transformation_Delivery_Framework.md'
+export const REPO = 'Seven-stage delivery framework'

@@ -1,0 +1,32 @@
+/* Framework map layout.
+   Desktop: one full-height instrument (rail | map | reading pane) sitting
+   between the site header and footer. Under 900px the three columns stack
+   into a normal scrolling page: map first, then what it says, then the index. */
+.am-root{height:calc(100vh - 84px - 44px);min-height:560px}
+.am-crumb{height:44px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:0 20px;border-bottom:1px solid var(--line);background:var(--bg);font:500 10px var(--font-geist-mono),monospace;letter-spacing:.08em;text-transform:uppercase}
+.am-crumb a{color:var(--muted);padding:6px 0;transition:color .2s}
+.am-crumb a:hover,.am-crumb a:focus-visible{color:var(--acid)}
+.am-crumb nav{display:flex;align-items:center;gap:14px}
+.am-crumb nav span{color:var(--line)}
+.am-root :focus-visible,.am-crumb a:focus-visible{outline:2px solid var(--acid);outline-offset:2px}
+
+@media(max-width:900px){
+  .am-root{height:auto;min-height:0}
+  .am-head{height:auto!important;flex-wrap:wrap;padding:12px 20px!important;row-gap:10px}
+  .am-head>div{border-left:0!important;padding:0 16px 0 0!important}
+  .am-title{flex-basis:100%;padding-right:0!important}
+  .am-title span:last-child{white-space:normal!important}
+  .am-controls{margin-left:0!important;padding-left:0!important;flex-basis:100%}
+  .am-body{flex-direction:column!important;min-height:0}
+  .am-stage{order:1;height:min(62vh,420px);flex:none!important;border-bottom:1px solid var(--line)}
+  .am-panel{order:2;width:auto!important;border-left:0!important;overflow:visible!important;padding:24px 20px!important}
+  .am-rail{order:3;width:auto!important;border-right:0!important;border-top:1px solid var(--line);overflow:visible!important}
+  .am-rail>div:first-child{position:static!important}
+  .am-foot{display:none!important}
+  /* vertical drags scroll the page; horizontal drags still pan the map */
+  .am-stage>div[role="application"]{touch-action:pan-y!important}
+  .am-crumb{padding:0 16px}
+}
+@media(max-width:480px){
+  .am-crumb nav a{max-width:92px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+}

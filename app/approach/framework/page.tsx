@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { FrameworkArchitecturePage } from "../../components/framework-map/FrameworkArchitecturePage";
+import { Header, Footer } from "../../components/SiteShell";
 
 export const metadata: Metadata = {
   title: "Enterprise AI Transformation Framework — Bhanu Harish Bandreddy",
@@ -8,5 +9,5 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <FrameworkArchitecturePage />;
+  return <><Header /><main><FrameworkArchitecturePage /></main><Footer /></>;
 }

@@ -13,7 +13,7 @@
 
 .nh-viz{position:relative;height:min(78vh,720px);min-height:480px;background:#070c1e;border-radius:16px;overflow:hidden;touch-action:pan-y;cursor:grab}
 .nh-viz:active{cursor:grabbing}
-.nh-viz canvas{position:absolute;inset:0;display:block;width:100%!important;height:100%!important;touch-action:none}
+.nh-viz canvas{position:absolute;inset:0;display:block;width:100%!important;height:100%!important;touch-action:pan-y}
 
 .nh-panel{position:absolute;left:24px;bottom:24px;z-index:3;max-width:400px;padding:20px 22px;border-radius:12px;background:rgba(9,17,15,.72);backdrop-filter:blur(10px);border:1px solid rgba(120,220,160,.16)}
 .nh-panel-n{font:600 10px var(--font-geist-mono),monospace;letter-spacing:.14em;color:var(--acid)}

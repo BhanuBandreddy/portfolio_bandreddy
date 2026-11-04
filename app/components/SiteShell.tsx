@@ -8,7 +8,7 @@ export function Header() {
     <nav aria-label="Primary navigation">
       <Link href="/work">Work</Link><Link href="/approach">Approach</Link><Link href="/about">About</Link>
     </nav>
-    <a className="header-contact" href="mailto:hareesh.b3@gmail.com">Start a conversation</a>
+    <a className="header-contact" href="mailto:hareesh.b3@gmail.com"><span className="hc-long">Start a conversation</span><span className="hc-short">Contact</span></a>
   </header>;
 }
 

@@ -80,7 +80,7 @@ function gridLines(footprints: Footprint[]): GridLine[] {
 
 export type Camera = { x: number; y: number; k: number }
 
-export const MIN_ZOOM = 0.4
+export const MIN_ZOOM = 0.2
 export const MAX_ZOOM = 3
 
 export function clampZoom(k: number): number {

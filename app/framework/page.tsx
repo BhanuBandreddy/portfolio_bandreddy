@@ -1,12 +1,6 @@
-import type { Metadata } from "next";
-import { FrameworkArchitecturePage } from "../components/framework-map/FrameworkArchitecturePage";
+import { permanentRedirect } from "next/navigation";
 
-export const metadata: Metadata = {
-  title: "Enterprise AI Transformation Framework — Bhanu Harish Bandreddy",
-  description:
-    "The Enterprise AI Delivery Framework, mapped: seven stages sized by real specification depth, connected by the document's own sequence and feedback loop.",
-};
-
+// One canonical home for the map: /approach/framework.
 export default function Page() {
-  return <FrameworkArchitecturePage />;
+  permanentRedirect("/approach/framework");
 }

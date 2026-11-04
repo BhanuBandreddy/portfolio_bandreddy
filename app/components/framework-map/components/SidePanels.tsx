@@ -47,6 +47,7 @@ export function LegendRail({
 
   return (
     <aside
+      className="am-rail"
       style={{
         width: 224,
         flexShrink: 0,
@@ -76,10 +77,10 @@ export function LegendRail({
                     fontFamily: typeface.body, fontSize: 12,
                   }}
                 >
-                  <span style={{ flex: 1, minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  <span style={{ flex: 1, minWidth: 0, lineHeight: 1.3 }}>
                     {flow.name}
                   </span>
-                  <span style={{ ...LABEL, color: active ? paint.accent : paint.inkTertiary, maxWidth: 72, overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                  <span style={{ ...LABEL, color: active ? paint.accent : paint.inkTertiary, maxWidth: 88, textAlign: 'right', lineHeight: 1.25 }}>
                     {flow.payload}
                   </span>
                 </button>
@@ -125,7 +126,7 @@ export function LegendRail({
                         }}
                       >
                         <span style={{ ...LABEL, color: isSelected ? paint.accent : paint.inkTertiary }}>{node.code}</span>
-                        <span style={{ flex: 1, minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                        <span style={{ flex: 1, minWidth: 0, lineHeight: 1.3 }}>
                           {node.name}
                         </span>
                         {node.count ? <span style={{ ...LABEL }}>{node.count}</span> : null}
@@ -178,9 +179,7 @@ export function ExplainerPanel({
 
   const title = node?.name ?? (edge ? edge.label : intro.title)
   const lede = node
-    ? node.loc
-      ? `${node.count} files · ~${node.loc.toLocaleString('en-US')} lines`
-      : undefined
+    ? node.role
     : edge
       ? `${nodes.find((n) => n.id === edge.from)?.name} → ${nodes.find((n) => n.id === edge.to)?.name}`
       : intro.lede
@@ -193,6 +192,7 @@ export function ExplainerPanel({
 
   return (
     <aside
+      className="am-panel"
       style={{
         width: 340, flexShrink: 0, overflowY: 'auto',
         borderLeft: `1px solid ${paint.border}`, padding: 20, background: paint.surface,
@@ -234,19 +234,6 @@ export function ExplainerPanel({
           <p style={{ fontFamily: typeface.body, fontSize: 12, color: paint.inkSecondary, margin: '8px 0 0' }}>
             {node.stack.join(' · ')}
           </p>
-        </section>
-      )}
-
-      {node?.files && node.files.length > 0 && (
-        <section style={{ marginTop: 20 }}>
-          <h3 style={LABEL}>Source</h3>
-          <ul style={{ listStyle: 'none', margin: '8px 0 0', padding: 0 }}>
-            {node.files.map((file) => (
-              <li key={file} style={{ fontFamily: typeface.mono, fontSize: 11, color: paint.inkTertiary, lineHeight: 1.8 }}>
-                {file}
-              </li>
-            ))}
-          </ul>
         </section>
       )}
     </aside>

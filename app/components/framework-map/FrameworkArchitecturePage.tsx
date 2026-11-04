@@ -6,7 +6,7 @@ import { GROUPS, NODES, EDGES, FLOWS, INTRO, UNMAPPED, REPO } from "./graph";
 import { useMapView } from "./stores/useMapView";
 import { getSubStage } from "./substages";
 
-const DATA = { groups: GROUPS, nodes: NODES, edges: EDGES, flows: FLOWS, intro: INTRO, unmapped: UNMAPPED, repo: REPO };
+const DATA = { groups: GROUPS, nodes: NODES, edges: EDGES, flows: FLOWS, intro: INTRO, unmapped: UNMAPPED, repo: REPO, nodeNoun: "Stages" };
 
 function DrillDownLink() {
   // Reads the skill's own selection store directly, from outside its copied
@@ -34,22 +34,13 @@ function DrillDownLink() {
 
 export function FrameworkArchitecturePage() {
   return (
-    <div style={{ position: "relative" }}>
-      <Link
-        href="/approach"
-        style={{
-          position: "fixed", zIndex: 40, left: 12, top: 66,
-          display: "inline-flex", alignItems: "center", gap: 6, padding: "5px 10px",
-          border: "1px solid var(--line)", borderRadius: 999, background: "rgba(255,255,255,.92)",
-          backdropFilter: "blur(8px)", color: "var(--muted)", textDecoration: "none",
-          fontFamily: "var(--font-geist-mono), monospace", fontSize: 10, letterSpacing: "0.08em",
-          textTransform: "uppercase", boxShadow: "0 6px 16px -10px rgba(31,35,40,.25)",
-        }}
-      >
-        ← Approach
-      </Link>
+    <>
+      <div className="am-crumb">
+        <Link href="/approach">← Approach</Link>
+        <span style={{ color: "var(--muted)" }}>{NODES.length} stages · 1 feedback loop</span>
+      </div>
       <ArchitectureMap data={DATA} />
       <DrillDownLink />
-    </div>
+    </>
   );
 }

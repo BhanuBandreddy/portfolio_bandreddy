@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { SUB_STAGES, getSubStage } from "../../../components/framework-map/substages";
 import { SubStagePageView } from "../../../components/framework-map/SubStagePage";
+import { Header, Footer } from "../../../components/SiteShell";
 
 export function generateStaticParams() {
   return SUB_STAGES.map((s) => ({ stage: s.slug }));
@@ -20,5 +21,5 @@ export default async function Page({ params }: { params: Promise<{ stage: string
   const { stage: slug } = await params;
   const stage = getSubStage(slug);
   if (!stage) notFound();
-  return <SubStagePageView stage={stage} />;
+  return <><Header /><main><SubStagePageView stage={stage} /></main><Footer /></>;
 }
