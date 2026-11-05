@@ -19,7 +19,6 @@ export function StackFlow() {
   return (
     <section className="stack-flow">
       <div className="flow-head">
-        <span className="section-index">DELIVERY FRAMEWORK · HOW I TRANSFORM ENTERPRISE WORKFLOWS</span>
         <h2>Seven steps from a business outcome<br />to governed, evaluated AI.</h2>
         <p>I don&rsquo;t install AI tools — I redesign critical workflows around governed intelligence: domain context, deterministic systems, specialised agents and accountable human decisions.</p>
       </div>

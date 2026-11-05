@@ -37,7 +37,6 @@ export function TransformEngine() {
   return (
     <section className="engine-hero" ref={ref} aria-labelledby="engine-h">
       <div className="engine-copy">
-        <span className="section-index">ENTERPRISE AI TRANSFORMATION · FROM WORKFLOW TO OPERATING INTELLIGENCE</span>
         <h2 id="engine-h">We turn critical enterprise workflows into <em>governed AI operating systems.</em></h2>
         <p>We combine business transformation, domain knowledge, enterprise context, deterministic engineering, specialised AI agents and measurable governance — so AI performs real work without separating intelligence from accountability.</p>
         <p className="engine-position">Rent the intelligence. Own the context.</p>

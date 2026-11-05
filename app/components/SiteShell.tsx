@@ -14,7 +14,7 @@ export function Header() {
 
 export function Footer() {
   return <footer className="site-footer">
-    <div><span className="kicker">CHENNAI · ENTERPRISE TRANSFORMATION ACROSS GLOBAL MARKETS</span><h2>Need product strategy,<br/>solution architecture or an <em>AI transformation roadmap?</em></h2></div>
+    <div><h2>Need product strategy,<br/>solution architecture or an <em>AI transformation roadmap?</em></h2></div>
     <a className="footer-cta" href="mailto:hareesh.b3@gmail.com">hareesh.b3@gmail.com <span>↗</span></a>
     <div className="footer-meta"><span>Bhanu Harish Bandreddy</span><span>VP · Product Innovation & AI Solutions</span><a href="https://linkedin.com/in/bhanu-h-bandreddy-32251572">LinkedIn ↗</a><span>© 2026</span></div>
   </footer>;

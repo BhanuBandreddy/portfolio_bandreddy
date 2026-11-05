@@ -378,7 +378,6 @@ export function NetworkHero() {
   return (
     <section className="nh">
       <div className="nh-copy">
-        <span className="section-index">SEVEN STAGES · ONE GOVERNED NETWORK</span>
         <h2>Every stage feeds the next — <em>and feeds back.</em></h2>
         <p>AI transformation isn&rsquo;t seven separate steps. It&rsquo;s one system: each stage informs the next, and the learning loop returns to strengthen the whole network.</p>
       </div>
