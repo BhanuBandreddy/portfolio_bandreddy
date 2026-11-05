@@ -315,3 +315,7 @@ body{background:var(--bg);color:var(--ink)}
   .work-row>i{grid-column:2;grid-row:1}
   .about-statement{grid-template-columns:1fr}
 }
+
+/* Label removal left these first-child blocks holding only a heading */
+.metaphor-section>div:first-child,.capability-section>div:first-child{display:block}
+.metaphor-section>div:first-child h2{margin-top:0;max-width:900px}
