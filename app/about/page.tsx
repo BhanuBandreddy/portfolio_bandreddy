@@ -1,4 +1,9 @@
 import { PageShell } from "../components/SiteShell";
+import type { Metadata } from "next";
+export const metadata: Metadata = {
+  title: "About | Bhanu Harish Bandreddy",
+  description: "VP, Product Innovation & AI Solutions. Fifteen years of banking, enterprise CRM and AI-led transformation across insurance and financial services.",
+};
 
 const timeline=[
   ["2022—NOW","Vice President · Product Innovation & AI Solutions","Iorta Technology Solutions · Chennai","Lead product strategy, lifecycle management, pre-sales, RFPs, solution and integration architecture, AI governance, PMO oversight, requirements alignment, UAT readiness and release planning across insurance, banking and NBFC programmes."],

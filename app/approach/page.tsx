@@ -1,4 +1,9 @@
 import { ArrowLink, PageShell } from "../components/SiteShell";
+import type { Metadata } from "next";
+export const metadata: Metadata = {
+  title: "Approach: from strategy to governed software | Bhanu Harish Bandreddy",
+  description: "How product, architecture and delivery stay traceable from client need to UAT and release, and where AI sits inside the governance.",
+};
 
 const stages=[
   ["01","Map the current operation","Identify the personas, trigger, input data, decisions, exceptions, hand-offs, integrations and final system record."],

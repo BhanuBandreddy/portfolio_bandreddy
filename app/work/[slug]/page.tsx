@@ -2,8 +2,14 @@ import { notFound } from "next/navigation";
 import { ArrowLink, PageShell } from "../../components/SiteShell";
 import { projects } from "../../data";
 import { ProjectVideo } from "../../components/ProjectVideo";
+import type { Metadata } from "next";
 
 export function generateStaticParams(){return projects.map(p=>({slug:p.slug}))}
+
+export async function generateMetadata({params}:{params:Promise<{slug:string}>}):Promise<Metadata>{
+  const {slug}=await params; const p=projects.find(x=>x.slug===slug);
+  return p?{title:`${p.name} | Bhanu Harish Bandreddy`,description:p.summary}:{title:"Case study not found"};
+}
 
 export default async function ProjectPage({params}:{params:Promise<{slug:string}>}){
   const {slug}=await params; const project=projects.find(p=>p.slug===slug); if(!project)notFound();

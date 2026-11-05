@@ -1,5 +1,10 @@
 import { PageShell } from "../components/SiteShell";
 import { projects } from "../data";
+import type { Metadata } from "next";
+export const metadata: Metadata = {
+  title: "Work: nine enterprise platform case studies | Bhanu Harish Bandreddy",
+  description: "Nine case studies across CRM transformation, insurance distribution and compounding AI: the business problem, the architecture, and what was delivered.",
+};
 
 export default function WorkPage(){return <PageShell>
   <section className="page-hero"><span className="kicker">ENTERPRISE PRODUCTS · AI SOLUTIONS · WORKING PROTOTYPES</span><h1>A portfolio spanning CRM transformation, insurance distribution and <em>Compounding AI.</em></h1><p>Each case identifies the business process, solution boundary, included capabilities, delivery status and my direct contribution. Working demonstrations are separated from live product platforms, client solution designs and founder-led MVPs.</p></section>
